@@ -2,9 +2,9 @@ version: '3.7'
 
 services:
 
-  scandiweb-fullstack:
+  e-commerce-backend:
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile
     ports:
       - "8000:80"
