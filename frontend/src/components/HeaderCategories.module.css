@@ -1,0 +1,35 @@
+.categories {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 10px;
+}
+
+.categories li {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.link {
+  color: var(--main-font-clr);
+  text-decoration: none;
+  text-transform: capitalize;
+  display: inline-block;
+  line-height: 52px;
+  width: 65px;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.link:hover {
+  color: var(--primary-clr);
+}
+
+.link.active {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--primary-clr);
+  border-bottom: 2px solid var(--primary-clr);
+}

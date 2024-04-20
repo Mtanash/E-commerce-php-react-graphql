@@ -1,0 +1,17 @@
+:root {
+  --main-font-clr: #1d1f22;
+
+  --primary-clr: #5ece7b;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+  color: var(--main-font-clr);
+}
