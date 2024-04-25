@@ -1,0 +1,20 @@
+.addToCartButton {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  box-shadow: 0px 4px 11px 0px #1d1f221a;
+  background-color: var(--primary-clr);
+  color: #fff;
+  outline: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  fill: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.addToCartButton:hover {
+  transform: scale(1.05);
+}

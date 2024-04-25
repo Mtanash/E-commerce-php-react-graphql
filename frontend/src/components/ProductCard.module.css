@@ -52,3 +52,15 @@
 .productCard.outOfStock .productPrice {
   color: #8d8f9a;
 }
+
+.addToCardBtnContainer {
+  position: absolute;
+  right: 31px;
+  bottom: 72px;
+  opacity: 0;
+  transition: all 0.2s;
+}
+
+.productCard:not(.outOfStock):hover .addToCardBtnContainer {
+  opacity: 1;
+}

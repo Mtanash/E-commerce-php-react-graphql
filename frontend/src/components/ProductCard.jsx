@@ -1,14 +1,26 @@
+import { useNavigate } from "react-router-dom";
+import AddToCartButton from "./AddToCartButton";
 import classes from "./ProductCard.module.css";
 
 export default function ProductCard({ product }) {
+  const navigate = useNavigate();
   const isOutOfStock = !product.inStock;
+
+  const handleProductClick = () => {
+    navigate(`/products/${product.id}`);
+  };
 
   return (
     <div
+      onClick={handleProductClick}
       className={`${classes.productCard} ${
         isOutOfStock ? classes.outOfStock : ""
       }`}
     >
+      <div className={classes.addToCardBtnContainer}>
+        <AddToCartButton product={product} />
+      </div>
+
       <div className={classes.imageContainer}>
         <img
           src={product.gallery[0]}

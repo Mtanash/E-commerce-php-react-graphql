@@ -3,6 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
+import { CartProvider } from "./context/CartContext";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
@@ -16,7 +17,9 @@ root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <BrowserRouter>
-        <App />
+        <CartProvider>
+          <App />
+        </CartProvider>
       </BrowserRouter>
     </ApolloProvider>
   </React.StrictMode>
