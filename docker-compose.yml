@@ -3,17 +3,19 @@ version: '3.7'
 services:
 
   e-commerce-backend:
+    container_name: e-commerce-backend
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
       - "8000:80"
     volumes:
-      - .:/var/www/html
+      - ./backend:/var/www/html
     depends_on:
       - mysql
 
   mysql:
+    container_name: mysql
     build: 
       context: ./mysql
       dockerfile: Dockerfile
