@@ -61,6 +61,9 @@ export default function ProductPage() {
     );
   };
 
+  const addToCartDisabled =
+    !isAllAttributesSelected() || !product?.product?.inStock;
+
   return (
     <section className={classes.productPage}>
       <div className={classes.imagesGallery}>
@@ -163,7 +166,7 @@ export default function ProductPage() {
 
         <ProductPageAddToCartBtn
           product={product}
-          disabled={!isAllAttributesSelected()}
+          disabled={addToCartDisabled}
           selectedAttributes={selectedAttributes}
         />
 
