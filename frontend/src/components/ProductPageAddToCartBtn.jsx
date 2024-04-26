@@ -8,7 +8,7 @@ export default function ProductPageAddToCartBtn({
   disabled,
   selectedAttributes,
 }) {
-  const { addProductToCart } = useCart();
+  const { addProductToCart, toggleCart } = useCart();
 
   const handleAddToCart = (product) => {
     addProductToCart({
@@ -16,6 +16,7 @@ export default function ProductPageAddToCartBtn({
       selectedAttributes,
     });
 
+    toggleCart();
     toaster.success("Product added to cart");
   };
 

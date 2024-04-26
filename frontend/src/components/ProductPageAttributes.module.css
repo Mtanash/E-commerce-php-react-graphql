@@ -1,3 +1,9 @@
+.attributes {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
 .attribute {
   .title {
     font-weight: 700;

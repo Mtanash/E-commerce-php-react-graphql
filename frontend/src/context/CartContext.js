@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 const persistCart = (cart) => {
   if (typeof window !== "undefined") {
@@ -23,6 +29,19 @@ export const useCart = () => {
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState(getCart());
+  const [cartIsOpen, setCartIsOpen] = useState(false);
+
+  const toggleCart = useCallback(() => {
+    setCartIsOpen((prev) => {
+      if (prev) {
+        document.body.style.overflow = "auto";
+        return false;
+      } else {
+        document.body.style.overflow = "hidden";
+        return true;
+      }
+    });
+  }, []);
 
   useEffect(() => {
     persistCart(cart);
@@ -61,8 +80,34 @@ export const CartProvider = ({ children }) => {
 
   const getTotalPrice = () => {
     return cart.reduce((total, cartProduct) => {
-      return total + cartProduct.product.price * cartProduct.quantity;
+      return (
+        total + cartProduct.product.prices[0].amount * cartProduct.quantity
+      );
+    }, 0);
+  };
+
+  const incrementQuantity = (productId) => {
+    const newCart = cart.map((cartProduct) => {
+      if (cartProduct.product.id === productId) {
+        return { ...cartProduct, quantity: cartProduct.quantity + 1 };
+      } else {
+        return cartProduct;
+      }
     });
+    setCart(newCart);
+  };
+
+  const decrementQuantity = (productId) => {
+    const newCart = cart
+      .map((cartProduct) => {
+        if (cartProduct.product.id === productId) {
+          return { ...cartProduct, quantity: cartProduct.quantity - 1 };
+        } else {
+          return cartProduct;
+        }
+      })
+      .filter((cartProduct) => cartProduct.quantity > 0);
+    setCart(newCart);
   };
 
   return (
@@ -74,6 +119,10 @@ export const CartProvider = ({ children }) => {
         clearCart,
         getTotalItems,
         getTotalPrice,
+        incrementQuantity,
+        decrementQuantity,
+        cartIsOpen,
+        toggleCart,
       }}
     >
       {children}
