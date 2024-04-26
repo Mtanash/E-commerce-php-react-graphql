@@ -1,6 +1,7 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Toaster } from "react-hot-toast";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { CartProvider } from "./context/CartContext";
@@ -22,6 +23,11 @@ root.render(
         </CartProvider>
       </BrowserRouter>
     </ApolloProvider>
+    <Toaster
+      toastOptions={{
+        duration: 5000,
+      }}
+    />
   </React.StrictMode>
 );
 

@@ -1,14 +1,14 @@
 import { useQuery } from "@apollo/client";
 import parse from "html-react-parser";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
+import ProductPageAddToCartBtn from "../components/ProductPageAddToCartBtn";
 import getProduct from "../queries/getProduct";
 import classes from "./ProductPage.module.css";
 
 export default function ProductPage() {
   const { id: productId } = useParams();
 
-  const addToCartBtnHelper = useRef();
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedAttributes, setSelectedAttributes] = useState({});
 
@@ -186,15 +186,16 @@ export default function ProductPage() {
             {product?.product?.prices[0].amount?.toFixed(2)}
           </div>
         </p>
-        <button
-          className={classes.addToCardBtn}
+
+        <ProductPageAddToCartBtn
+          product={product}
           disabled={!isAllAttributesSelected()}
-        >
-          Add to cart
-        </button>
-        <p className={classes.productDescription}>
+          selectedAttributes={selectedAttributes}
+        />
+
+        <div className={classes.productDescription}>
           {parse(product?.product?.description || "")}
-        </p>
+        </div>
       </div>
     </section>
   );
