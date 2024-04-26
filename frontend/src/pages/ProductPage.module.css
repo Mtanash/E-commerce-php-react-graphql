@@ -1,0 +1,152 @@
+.productPage {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 109px;
+}
+
+.imagesGallery {
+  display: flex;
+  gap: 40px;
+  grid-column: span 2;
+}
+
+.imagesStack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  > img {
+    object-fit: cover;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  > img:hover {
+    opacity: 0.7;
+  }
+
+  > img.active {
+    border: 1px solid var(--primary-clr);
+  }
+}
+
+.mainImage {
+  position: relative;
+}
+
+.arrows {
+  > button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    border: none;
+    outline: none;
+    background: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  > button:hover {
+    opacity: 0.7;
+  }
+
+  > button.leftArrow {
+    left: 16px;
+  }
+
+  > button.rightArrow {
+    right: 16px;
+  }
+}
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.productName {
+  font-weight: 600;
+  font-size: 30px;
+}
+
+.productPrice {
+  .title {
+    font-weight: 700;
+    font-size: 18px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .price {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 24px;
+  }
+}
+
+.addToCardBtn {
+  background-color: var(--primary-clr);
+  color: #fff;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 16px;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+
+  &:not(:disabled):hover {
+    opacity: 0.7;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.attribute {
+  .title {
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .item {
+    cursor: pointer;
+    outline: none;
+    border: 1px solid #1d1f22;
+    width: 63px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 400;
+    font-size: 16px;
+    background-color: transparent;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: #1d1f22;
+      color: #fff;
+    }
+
+    &.active {
+      background-color: #1d1f22;
+      color: #fff;
+    }
+  }
+}

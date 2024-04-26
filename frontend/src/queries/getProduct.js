@@ -1,14 +1,16 @@
 import { gql } from "@apollo/client";
 
 const getProduct = gql`
-  query GetProduct($id: String) {
+  query Product($id: String!) {
     product(id: $id) {
       id
       name
       inStock
       gallery
       description
-      category
+      category {
+        name
+      }
       attributes {
         id
         name
