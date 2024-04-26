@@ -1,8 +1,9 @@
 import { useQuery } from "@apollo/client";
 import parse from "html-react-parser";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProductPageAddToCartBtn from "../components/ProductPageAddToCartBtn";
+import ProductPageAttributes from "../components/productPageAttributes";
 import getProduct from "../queries/getProduct";
 import classes from "./ProductPage.module.css";
 
@@ -11,6 +12,10 @@ export default function ProductPage() {
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedAttributes, setSelectedAttributes] = useState({});
+
+  const changeSelectedAttributes = useCallback((attributes) => {
+    setSelectedAttributes(attributes);
+  }, []);
 
   const {
     data: product,
@@ -47,21 +52,6 @@ export default function ProductPage() {
         );
       }
     }
-  };
-
-  const handleAttributeClick = (attribute, item) => {
-    setSelectedAttributes((prev) => {
-      return {
-        ...prev,
-        [attribute.id]: item,
-      };
-    });
-  };
-
-  const isItemSelected = (attribute, item) => {
-    return Object.entries(selectedAttributes).some(([key, value]) => {
-      return key === attribute.id && value.id === item.id;
-    });
   };
 
   const isAllAttributesSelected = () => {
@@ -157,27 +147,11 @@ export default function ProductPage() {
       <div className={classes.productInfo}>
         <h1 className={classes.productName}>{product?.product?.name}</h1>
 
-        {/* attributes */}
-        <div className={classes.attributes}>
-          {product?.product?.attributes?.map((attribute) => (
-            <div key={attribute.id} className={classes.attribute}>
-              <p className={classes.title}>{attribute.name}:</p>
-              <div className={classes.items}>
-                {attribute.items.map((item) => (
-                  <button
-                    key={item.id}
-                    className={`${classes.item} ${
-                      isItemSelected(attribute, item) && classes.active
-                    }`}
-                    onClick={() => handleAttributeClick(attribute, item)}
-                  >
-                    {item.displayValue}
-                  </button>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+        <ProductPageAttributes
+          attributes={product?.product?.attributes}
+          selectedAttributes={selectedAttributes}
+          setSelectedAttributes={changeSelectedAttributes}
+        />
 
         <p className={classes.productPrice}>
           <p className={classes.title}>price:</p>
