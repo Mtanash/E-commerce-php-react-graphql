@@ -6,6 +6,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import generateID from "../utils/generateID";
 
 // {
 //   "__typename": "Product",
@@ -178,9 +179,6 @@ export const CartProvider = ({ children }) => {
       );
       if (existProductIndex !== -1) {
         const existProduct = newCart[existProductIndex];
-        console.log(
-          compareProductsSelectedAttributes(existProduct.product, product)
-        );
         if (compareProductsSelectedAttributes(existProduct.product, product)) {
           const updatedProduct = {
             ...existProduct,
@@ -188,21 +186,21 @@ export const CartProvider = ({ children }) => {
           };
           newCart[existProductIndex] = updatedProduct;
         } else {
-          newCart.push({ product, quantity: 1 });
+          newCart.push({ product, quantity: 1, id: generateID() });
         }
       } else {
-        newCart.push({ product, quantity: 1 });
+        newCart.push({ product, quantity: 1, id: generateID() });
       }
     } else {
-      newCart.push({ product, quantity: 1 });
+      newCart.push({ product, quantity: 1, id: generateID() });
     }
 
     setCart(newCart);
   };
 
-  const removeProductFromCart = (productId) => {
+  const removeProductFromCart = (cartProductId) => {
     const newProducts = cart.filter((cartProduct) => {
-      return cartProduct.product.id !== productId;
+      return cartProduct.id !== cartProductId;
     });
 
     setCart(newProducts);
@@ -224,9 +222,9 @@ export const CartProvider = ({ children }) => {
     }, 0);
   };
 
-  const incrementQuantity = (productId) => {
+  const incrementQuantity = (cartProductId) => {
     const newCart = cart.map((cartProduct) => {
-      if (cartProduct.product.id === productId) {
+      if (cartProduct.id === cartProductId) {
         return { ...cartProduct, quantity: cartProduct.quantity + 1 };
       } else {
         return cartProduct;
@@ -235,10 +233,10 @@ export const CartProvider = ({ children }) => {
     setCart(newCart);
   };
 
-  const decrementQuantity = (productId) => {
+  const decrementQuantity = (cartProductId) => {
     const newCart = cart
       .map((cartProduct) => {
-        if (cartProduct.product.id === productId) {
+        if (cartProduct.id === cartProductId) {
           return { ...cartProduct, quantity: cartProduct.quantity - 1 };
         } else {
           return cartProduct;

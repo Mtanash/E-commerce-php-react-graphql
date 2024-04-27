@@ -4,14 +4,24 @@ import classes from "./AddToCartButton.module.css";
 export default function AddToCartButton({ product }) {
   const { addProductToCart } = useCart();
 
-  function handleAddToCart(product) {
-    addProductToCart(product);
+  function handleAddToCart(product, event) {
+    event.stopPropagation();
+    const selectedAttributes = {};
+
+    for (const attribute of product?.attributes) {
+      selectedAttributes[attribute.id] = attribute.items[0];
+    }
+
+    addProductToCart({
+      ...product,
+      selectedAttributes,
+    });
   }
 
   return (
     <button
       className={classes.addToCartButton}
-      onClick={() => handleAddToCart(product)}
+      onClick={(e) => handleAddToCart(product, e)}
     >
       <svg
         width="20"

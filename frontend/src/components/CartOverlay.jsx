@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useCart } from "../context/CartContext";
+import toaster from "../toaster";
 import classes from "./CartOverlay.module.css";
 
 export default function CartOverlay({ toggleCart, cartIsOpen }) {
@@ -9,6 +10,7 @@ export default function CartOverlay({ toggleCart, cartIsOpen }) {
     getTotalPrice,
     incrementQuantity,
     decrementQuantity,
+    clearCart,
   } = useCart();
 
   const cartRef = useRef(null);
@@ -44,14 +46,22 @@ export default function CartOverlay({ toggleCart, cartIsOpen }) {
     // changeType = "increase" or "decrease"
     switch (changeType) {
       case "increase":
-        incrementQuantity(cartProduct.product.id);
+        incrementQuantity(cartProduct.id);
         break;
       case "decrease":
-        decrementQuantity(cartProduct.product.id);
+        decrementQuantity(cartProduct.id);
         break;
       default:
         break;
     }
+  };
+
+  const handlePlaceOrder = () => {
+    // handle order placement
+
+    clearCart();
+    toggleCart();
+    toaster.success("Order placed successfully");
   };
 
   return (
@@ -192,7 +202,7 @@ export default function CartOverlay({ toggleCart, cartIsOpen }) {
 
           <button
             className={classes.placeOrderBtn}
-            onClick={() => {}}
+            onClick={handlePlaceOrder}
             disabled={cart.length === 0}
           >
             Place Order

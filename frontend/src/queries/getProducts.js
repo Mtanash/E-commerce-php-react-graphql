@@ -14,6 +14,16 @@ const getProducts = gql`
         }
       }
       name
+      attributes {
+        id
+        name
+        type
+        items {
+          displayValue
+          value
+          id
+        }
+      }
     }
   }
 `;
