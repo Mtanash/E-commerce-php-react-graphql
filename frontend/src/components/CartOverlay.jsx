@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useCart } from "../context/CartContext";
-import toaster from "../toaster";
 import classes from "./CartOverlay.module.css";
+import PlaceOrderButton from "./PlaceOrderButton";
 
 export default function CartOverlay({ toggleCart, cartIsOpen }) {
   const {
@@ -10,7 +10,6 @@ export default function CartOverlay({ toggleCart, cartIsOpen }) {
     getTotalPrice,
     incrementQuantity,
     decrementQuantity,
-    clearCart,
   } = useCart();
 
   const cartRef = useRef(null);
@@ -54,14 +53,6 @@ export default function CartOverlay({ toggleCart, cartIsOpen }) {
       default:
         break;
     }
-  };
-
-  const handlePlaceOrder = () => {
-    // handle order placement
-
-    clearCart();
-    toggleCart();
-    toaster.success("Order placed successfully");
   };
 
   return (
@@ -128,13 +119,13 @@ export default function CartOverlay({ toggleCart, cartIsOpen }) {
                         <path
                           d="M12 8V16"
                           stroke="#1D1F22"
-                          stroke-linecap="round"
+                          strokeLinecap="round"
                           strokeLinejoin="round"
                         />
                         <path
                           d="M8 12H16"
                           stroke="#1D1F22"
-                          stroke-linecap="round"
+                          strokeLinecap="round"
                           strokeLinejoin="round"
                         />
                         <rect
@@ -174,7 +165,7 @@ export default function CartOverlay({ toggleCart, cartIsOpen }) {
                       <path
                         d="M8 12H16"
                         stroke="#1D1F22"
-                        stroke-linecap="round"
+                        strokeLinecap="round"
                         strokeLinejoin="round"
                       />
                     </svg>
@@ -200,13 +191,7 @@ export default function CartOverlay({ toggleCart, cartIsOpen }) {
             </p>
           </div>
 
-          <button
-            className={classes.placeOrderBtn}
-            onClick={handlePlaceOrder}
-            disabled={cart.length === 0}
-          >
-            Place Order
-          </button>
+          <PlaceOrderButton />
         </div>
       </div>
     </div>

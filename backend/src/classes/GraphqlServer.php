@@ -9,6 +9,7 @@ use DI\Container;
 use database\Database;
 use repositories\CategoryRepository;
 use repositories\ProductRepository;
+use repositories\OrderRepository;
 
 class GraphqlServer
 {
@@ -34,6 +35,7 @@ class GraphqlServer
       'repository' => new Container([
         'product' => new ProductRepository($pdo, $logger),
         'category' => new CategoryRepository($pdo, $logger),
+        'order' => new OrderRepository($pdo, $logger),
       ])
     ]);
 

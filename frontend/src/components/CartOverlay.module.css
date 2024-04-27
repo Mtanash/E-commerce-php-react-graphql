@@ -139,27 +139,3 @@
     }
   }
 }
-
-.placeOrderBtn {
-  width: 100%;
-  padding: 13px 0;
-  background-color: var(--primary-clr);
-  color: #fff;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 14px;
-  text-transform: uppercase;
-  margin-top: 32px;
-  transition: all 0.2s;
-
-  &:hover {
-    opacity: 0.7;
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-}

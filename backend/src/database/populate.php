@@ -19,6 +19,7 @@ try {
   // Ensure tables exist
   createProductTable($pdo, $logger);
   createCategoryTable($pdo, $logger);
+  createOrderTable($pdo, $logger);
 
   // Populate products
   populateProducts($pdo, $data["data"]["products"], $logger);
@@ -121,6 +122,28 @@ function populateCategories($pdo, $categories, $logger)
     $logger->info(count($categories) . " categories inserted");
   } catch (\Exception $e) {
     $logger->error("Category insertion failed: " . $e->getMessage());
+    throw $e;
+  }
+}
+
+function createOrderTable($pdo, $logger)
+{
+  try {
+
+    $stmt = $pdo->prepare("CREATE TABLE IF NOT EXISTS `Order` (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        products TEXT,
+        total FLOAT,
+        currency TEXT,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+    )");
+
+    $stmt->execute();
+
+    $logger->info("Order table created if not exists");
+  } catch (\Exception $e) {
+    $logger->error("Order table creation failed: " . $e->getMessage());
     throw $e;
   }
 }

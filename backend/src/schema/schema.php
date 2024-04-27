@@ -6,6 +6,7 @@ use queries\Product as ProductQuery;
 use queries\Products as ProductsQuery;
 use queries\Categories as CategoriesQuery;
 use queries\Category as CategoryQuery;
+use mutations\Order as OrderMutation;
 
 return new Schema([
   'query' => new ObjectType([
@@ -17,4 +18,10 @@ return new Schema([
       'categories' => CategoriesQuery::get(),
     ]
   ]),
+  'mutation' => new ObjectType([
+    'name' => 'Mutation',
+    'fields' => [
+      'createOrder' => OrderMutation::get()
+    ]
+  ])
 ]);

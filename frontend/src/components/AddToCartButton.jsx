@@ -1,4 +1,5 @@
 import { useCart } from "../context/CartContext";
+import toaster from "../toaster";
 import classes from "./AddToCartButton.module.css";
 
 export default function AddToCartButton({ product }) {
@@ -16,6 +17,8 @@ export default function AddToCartButton({ product }) {
       ...product,
       selectedAttributes,
     });
+
+    toaster.success("Product added to cart");
   }
 
   return (
