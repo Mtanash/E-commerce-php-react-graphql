@@ -8,8 +8,6 @@ export default function AttributeItem({
 }) {
   const isSwatch = attribute.type === "swatch";
 
-  console.log(item);
-
   return (
     <button
       key={item.id}

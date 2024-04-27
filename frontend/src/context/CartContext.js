@@ -1,3 +1,4 @@
+import { equals } from "ramda";
 import React, {
   createContext,
   useCallback,
@@ -5,6 +6,127 @@ import React, {
   useEffect,
   useState,
 } from "react";
+
+// {
+//   "__typename": "Product",
+//   "id": "apple-imac-2021",
+//   "name": "iMac 2021",
+//   "inStock": true,
+//   "gallery": [
+//       "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/imac-24-blue-selection-hero-202104?wid=904&hei=840&fmt=jpeg&qlt=80&.v=1617492405000"
+//   ],
+//   "description": "The new iMac!",
+//   "category": {
+//       "__typename": "Category",
+//       "name": "tech"
+//   },
+//   "attributes": [
+//       {
+//           "__typename": "AttributeSet",
+//           "id": "Capacity",
+//           "name": "Capacity",
+//           "type": "text",
+//           "items": [
+//               {
+//                   "__typename": "Attribute",
+//                   "displayValue": "256GB",
+//                   "value": "256GB",
+//                   "id": "256GB"
+//               },
+//               {
+//                   "__typename": "Attribute",
+//                   "displayValue": "512GB",
+//                   "value": "512GB",
+//                   "id": "512GB"
+//               }
+//           ]
+//       },
+//       {
+//           "__typename": "AttributeSet",
+//           "id": "With USB 3 ports",
+//           "name": "With USB 3 ports",
+//           "type": "text",
+//           "items": [
+//               {
+//                   "__typename": "Attribute",
+//                   "displayValue": "Yes",
+//                   "value": "Yes",
+//                   "id": "Yes"
+//               },
+//               {
+//                   "__typename": "Attribute",
+//                   "displayValue": "No",
+//                   "value": "No",
+//                   "id": "No"
+//               }
+//           ]
+//       },
+//       {
+//           "__typename": "AttributeSet",
+//           "id": "Touch ID in keyboard",
+//           "name": "Touch ID in keyboard",
+//           "type": "text",
+//           "items": [
+//               {
+//                   "__typename": "Attribute",
+//                   "displayValue": "Yes",
+//                   "value": "Yes",
+//                   "id": "Yes"
+//               },
+//               {
+//                   "__typename": "Attribute",
+//                   "displayValue": "No",
+//                   "value": "No",
+//                   "id": "No"
+//               }
+//           ]
+//       }
+//   ],
+//   "prices": [
+//       {
+//           "__typename": "Price",
+//           "currency": {
+//               "__typename": "Currency",
+//               "label": "USD",
+//               "symbol": "$"
+//           },
+//           "amount": 1688.03
+//       }
+//   ],
+//   "selectedAttributes": {
+//       "Capacity": {
+//           "__typename": "Attribute",
+//           "displayValue": "512GB",
+//           "value": "512GB",
+//           "id": "512GB"
+//       },
+//       "With USB 3 ports": {
+//           "__typename": "Attribute",
+//           "displayValue": "Yes",
+//           "value": "Yes",
+//           "id": "Yes"
+//       },
+//       "Touch ID in keyboard": {
+//           "__typename": "Attribute",
+//           "displayValue": "No",
+//           "value": "No",
+//           "id": "No"
+//       }
+//   }
+// }
+
+const compareProductsSelectedAttributes = (firstProduct, secondProduct) => {
+  const firstAttributes = firstProduct.selectedAttributes;
+  const secondAttributes = secondProduct.selectedAttributes;
+
+  for (const key in firstAttributes) {
+    if (!equals(firstAttributes[key], secondAttributes[key])) {
+      return false;
+    }
+  }
+
+  return true;
+};
 
 const persistCart = (cart) => {
   if (typeof window !== "undefined") {
@@ -48,18 +170,34 @@ export const CartProvider = ({ children }) => {
   }, [cart]);
 
   const addProductToCart = (product) => {
-    if (!cart.some((cartProduct) => cartProduct.product.id === product.id)) {
-      setCart([...cart, { product, quantity: 1 }]);
-    } else {
-      const newCart = cart.map((cartProduct) => {
-        if (cartProduct.product.id === product.id) {
-          return { ...cartProduct, quantity: cartProduct.quantity + 1 };
+    let newCart = [...cart];
+
+    if (product.selectedAttributes !== undefined) {
+      const existProductIndex = newCart.findIndex(
+        (p) => p.product.id === product.id
+      );
+      if (existProductIndex !== -1) {
+        const existProduct = newCart[existProductIndex];
+        console.log(
+          compareProductsSelectedAttributes(existProduct.product, product)
+        );
+        if (compareProductsSelectedAttributes(existProduct.product, product)) {
+          const updatedProduct = {
+            ...existProduct,
+            quantity: existProduct.quantity + 1,
+          };
+          newCart[existProductIndex] = updatedProduct;
         } else {
-          return cartProduct;
+          newCart.push({ product, quantity: 1 });
         }
-      });
-      setCart(newCart);
+      } else {
+        newCart.push({ product, quantity: 1 });
+      }
+    } else {
+      newCart.push({ product, quantity: 1 });
     }
+
+    setCart(newCart);
   };
 
   const removeProductFromCart = (productId) => {
